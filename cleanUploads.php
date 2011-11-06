@@ -679,7 +679,7 @@ function cleanFiles($dir) {
     $currentTime = time();
     $targetTime = $currentTime - (21600); // 6 hours in seconds
     foreach(scandir($dir) as $fileName) {
-        if($fileName != "." AND $fileName != "..") {
+        if($fileName != "." AND $fileName != ".." AND ($fileName != "index.html" OR filesize($dir.$fileName) > 0)) {
             if (filemtime($dir.$fileName) < $targetTime) {
         	    unlink($dir.$fileName);
             }
