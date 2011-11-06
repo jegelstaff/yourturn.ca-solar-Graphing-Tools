@@ -672,6 +672,8 @@ For more information on this, and how to apply and follow the GNU AGPL, see
 // this file generates a graph based on an uploaded GT-View/SG-View log file
 // plus the parameters that a user enters
 
+// PROBLEMS:
+
 include_once "paths.php";
 include_once "cleanUploads.php";
 
@@ -712,17 +714,20 @@ include_once "cleanUploads.php";
         <div id="sidebar">
             <div id="buttonArea">
                 <input type="button" id="createGraph" name="createGraph" value="Create Graph"></input>
+                <p class="helptext">(opens a new window)</p>
             </div>
     
             <div id="afferoArea">
                 <p class="helptext">&copy; 2010-2011 Julian Egelstaff</p>
-                <p class="helptext">This graphing system is <a href="http://www.gnu.org/licenses/agpl.html" target="_blank">open source software, under the AGPL 3</a>.</p>
-                <p class="helptext">You can <a href="" target="_blank">download the source code from GitHub</a>.</p>
+                <p class="helptext">This graphing system is <a href="http://www.gnu.org/licenses/agpl.html" target="_blank">open source software, under the <nobr>AGPL 3</nobr></a>.</p>
+                <p class="helptext">You can <a href="https://github.com/jegelstaff/yourturn.ca-solar-Graphing-Tools" target="_blank">download the source code from GitHub</a>.</p>
+                <p><hr /></p>
+                <p class="helptext"><a href="http://www.yourturn.ca/solar">Visit the yourturn.ca/solar website</a>, to learn about my solar power system and see complete historical graphs of its production.</p>
             </div>
         </div>
         
         
-	<div id="tabs-1">
+	<div id="tabs-1" class="tabs">
                 <div class="uisection-first">
                     <p>What day are you graphing? <input type="text" id="datepicker"></p>
                     <input type="hidden" id="logDate" name="logDate" value="" />
@@ -745,7 +750,7 @@ include_once "cleanUploads.php";
                 </div>
                 
  	</div>
-	<div id="tabs-2">
+	<div id="tabs-2" class="tabs">
                 <div class="uisection-first" id="size">
                     <p>Size of the graph:</p>
                     <p id="sizeInfo" class="sliderLabel">970 x 550</p>
@@ -756,12 +761,7 @@ include_once "cleanUploads.php";
                     <p class="helptext">You may also want to alter the size due to the nature of your data and the scales you are using, so that your graphs are not squished too much in one dimension or the other (if you have few hours of sunlight, you will probably want a narrow graph, for example).</p>
                 </div>
 	</div>
-	<div id="tabs-3">
-                <div id="scaleHelp">
-                    <p class="helptext">If you are making a series of graphs, you should set the same scales for all of them so that the graphs can be compared more easily.</p>
-                    <p class="helptext">To easily compare graphs visually across the entire year, set a <b>Maximum Watt Hours</b> value slightly higher than the maximum total daily power output of your inverter, set a <b>Maximum Watts</b> value slightly higher than the maximum instantaneous power output of your inverter, and set <b>Start and End Times</b> that match sunrise and sunset on the summer solistice at your location.</p>
-                </div>
-                <div id="scaleContainer">
+	<div id="tabs-3" class="tabs">
 		<div class="uisection-first">
                     <p>Maximum Watt Hours for the right vertical scale:<br />
                     <input type="text" size="10" maxlength="10" id="maxWh" name="maxWh" value="24000" /></p>
@@ -772,7 +772,6 @@ include_once "cleanUploads.php";
                     <input type="text" size="10" maxlength="10" id="maxW" name="maxW" value="3000" /></p>
                     <p class="helptext">Watts are used to show the instantaneous power output throughout the day, and are displayed on the left side of the graph.</p>
                 </div>
-                </div>
                 <div class="uisection" id="timeRange">
                     <p>Start and End Times for the horizontal scale:</p>
                     <p id="times" class="sliderLabel"></p>
@@ -780,16 +779,21 @@ include_once "cleanUploads.php";
                     <input type="hidden" id="endTime" name="endTime" value="" />
                     <div id="timeSlider"></div>
                 </div>
+                <div class="uisection" id="scaleHelp">
+                    <p>About the scales:</p>
+                    <p class="helptext">If you are making a series of graphs, you should set the same scales for all of them so that the graphs can be compared more easily.</p>
+                    <p class="helptext">To easily compare graphs visually across the entire year, set a <b>Maximum Watt Hours</b> value slightly higher than the maximum total daily power output of your inverter, set a <b>Maximum Watts</b> value slightly higher than the maximum instantaneous power output of your inverter, and set <b>Start and End Times</b> that match sunrise and sunset on the summer solistice at your location.</p>
+                </div>
                 
 	</div>
-        <div id="tabs-4">
+        <div id="tabs-4" class="tabs">
                 <div class="uisection-first" id="colours">
-                    <p>Instantaneous output (Watts): <input type="text" size="10" maxlength="255" id="colourInstant" class="colourTextbox" name="colourInstant" value="#4265A7" /></p>
-                    <p>Cumulative power (Watt Hours): <input type="text" size="10" maxlength="255" id="colourCumulative" class="colourTextbox" name="colourCumulative" value="#FF8C00" /></p>
-                    <p>Titles: <input type="text" size="10" maxlength="255" id="colourTitle" class="colourTextbox" name="colourTitle" value="#A0522D" /></p>
-                    <p>Text labels: <input type="text" size="10" maxlength="255" id="colourLabel" class="colourTextbox" name="colourLabel" value="#443B31" /></p>
-                    <p>Graph background: <input type="text" size="10" maxlength="255" id="colourBackground" class="colourTextbox" name="colourBackground" value="#F9F7F5" /></p>
-                    <p>Graph Margins: <input type="text" size="10" maxlength="255" id="colourMargin" class="colourTextbox" name="colourMargin" value="#E7E1DE" /></p>
+                    <p>Instantaneous output (Watts): <input type="text" size="10" maxlength="255" id="colourInstant" class="colourTextbox" name="colourInstant" value="#FBD209" /></p>
+                    <p>Cumulative power (Watt Hours): <input type="text" size="10" maxlength="255" id="colourCumulative" class="colourTextbox" name="colourCumulative" value="#77B9DA" /></p>
+                    <p>Titles: <input type="text" size="10" maxlength="255" id="colourTitle" class="colourTextbox" name="colourTitle" value="#530467" /></p>
+                    <p>Text labels: <input type="text" size="10" maxlength="255" id="colourLabel" class="colourTextbox" name="colourLabel" value="#000000" /></p>
+                    <p>Graph background: <input type="text" size="10" maxlength="255" id="colourBackground" class="colourTextbox" name="colourBackground" value="#FCFBE3" /></p>
+                    <p>Graph Margins: <input type="text" size="10" maxlength="255" id="colourMargin" class="colourTextbox" name="colourMargin" value="#959938" /></p>
                 </div>
                 <div id="colourPickers">
                    <div id="colourMarginPicker" class="colourPicker"></div>
@@ -801,10 +805,12 @@ include_once "cleanUploads.php";
                 </div>                
 	</div>
         
-        <div id="tabs-5">
+        <div id="tabs-5" class="tabs">
                 <div class="uisection-first" id="faq">
+                    <p class="question">What kinds of graphs can you make?</p>
+                    <p class="answer">Right now, you can only make graphs of the daily energy production from a solar power array.  Monthly and other types of logs may be possible in the future.  If you want to help add other kinds of graphs, you can <a href="https://github.com/jegelstaff/yourturn.ca-solar-Graphing-Tools" target="_blank">get involved in the project on GitHub</a>.</p>
                     <p class="question">Can you graph data from other systems besides Xantrex GT Inverters?</p>
-                    <p class="answer">Not right now, but the software is designed to accept other inputs.  If you want to help make it aware of other data sources, you can <a href="" target="_blank">get involved in the project on GitHub</a>.</p>
+                    <p class="answer">Not right now, but the software is designed to accept other inputs.  If you want to help make it aware of other data sources, you can <a href="https://github.com/jegelstaff/yourturn.ca-solar-Graphing-Tools" target="_blank">get involved in the project on GitHub</a>.</p>
                 </div>                
 	</div>
         
@@ -870,7 +876,7 @@ include_once "cleanUploads.php";
             }
           },
           'onComplete'  : function(event, ID, fileObj, response, data) {
-                uploadedLogName = fileObj.name;
+                uploadedLogName = response;
           },
           'onCancel'    : function(event,ID,fileObj,data) {
                 uploadedLogName = "";
@@ -932,7 +938,8 @@ include_once "cleanUploads.php";
 	    if (window.yourturn_popup.closed) {
 	    	yourturn_popup = window.open('showGraph.php'+imageParams,'yourturn_popup');
             } else {
-	    	window.yourturn_popup.location = url;              
+                window.yourturn_popup.location = '';
+	    	window.yourturn_popup.location = 'showGraph.php'+imageParams;              
 	    }
 	}
 	window.yourturn_popup.focus();

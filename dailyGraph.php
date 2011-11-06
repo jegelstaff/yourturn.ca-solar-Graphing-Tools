@@ -671,16 +671,22 @@ For more information on this, and how to apply and follow the GNU AGPL, see
 
 // this file does the actual creation of a graph, based on values passed in through the URL, including a reference to a file that has the log data to use
 
+
 // Standard inclusions
 include_once "paths.php";
+writeProgressInfo("Reading your log file...",1);
 include_once "pChart/pChart/pData.class";
 include_once "pChart/pChart/pChart.class";
 include_once "cleanUploads.php";
 
+if(!defined("ROOT_PATH") OR $_GET['height'] < 550) { // just double check that we've got what seems like a valid GET and the root path exists!
+ exit;
+}
+
 $readLogValues = readTheLogFile(); // Read log the user uploaded
 
 if($readLogValues === false) { // if we couldn't read the log file, then give up
- return;
+ exit;
 } else {
  $time = $readLogValues[0];
  $watts = $readLogValues[1];
@@ -772,7 +778,7 @@ $SkipLabels = round(((count($time)+2) / $divisions),-1); // round to the nearest
 $SkipLabels = findNearestMinuteMark($SkipLabels);
 
 $requestDate = $_GET['date'];
-$requestWeather = $_GET['weather'] ? " - ".$_GET['weather'] : "";
+$requestWeather = $_GET['weather'] ? " - ".htmlspecialchars_decode($_GET['weather'], ENT_QUOTES) : "";
 
 // Dataset definition 
 $DataSet = new pData;
@@ -783,26 +789,40 @@ $DataSet->SetSerieName($outputText,"watts");
 $DataSet->SetSerieName($totalOutputText,"watthours");
 $DataSet->SetAbsciseLabelSerie("time"); 
 
+writeProgressInfo("Initializing the image...",28);
+
 // Initialise the graph
 $Graph = new pChart($width,$height);
+writeProgressInfo("Initializing the image...",34);
 $Graph->drawRoundedRectangle($borderOffsetX1,$borderOffsetY1,$borderOffsetX2,$borderOffsetY2,$cornerRadius,$borderR,$borderG,$borderB); // $X1,$Y1,$X2,$Y2,$Radius,$R,$G,$B
+writeProgressInfo("Initializing the image...",40);
 $Graph->drawFilledRoundedRectangle($backgroundOffsetX1,$backgroundOffsetY1,$backgroundOffsetX2,$backgroundOffsetY2,$cornerRadius,$backgroundR,$backgroundG,$backgroundB); //$X1,$Y1,$X2,$Y2,$Radius,$R,$G,$B
+writeProgressInfo("Initializing the image...",46);
 $Graph->setColorPalette(0,$blueR,$blueG,$blueB);
 $Graph->setColorPalette(1,$orangeR,$orangeG,$orangeB);
+
+writeProgressInfo("Drawing the graph background...",52);
 
 // Prepare the graph area
 $Graph->setFontProperties("pChart/Fonts/tahoma.ttf",$tenPoint);
 $Graph->setGraphArea($graphAreaMarginXLeft,$graphAreaMarginYTop,$width - $graphAreaMarginXRight,$height - $graphAreaMarginYBottom);
 $Graph->drawGraphArea($graphBackgroundR,$graphBackgroundG,$graphBackgroundB,TRUE);
 
+writeProgressInfo("Drawing the output in watts...",53);
+
 // Draw the watt output
 $DataSet->AddSerie("watts");
 $DataSet->SetYAxisUnit($outputUnit);
 $Graph->setFixedScale(0,intval($_GET['maxW']),$scaleInterval);
 $Graph->drawScale($DataSet->GetData(),$DataSet->GetDataDescription(),SCALE_START0,$darkTextR,$darkTextG,$darkTextB,TRUE,0,0,FALSE,$SkipLabels);
+writeProgressInfo("Drawing the output in watts...",60);
 $Graph->drawGrid(2,TRUE,$backgroundR,$backgroundG,$backgroundB,10,$SkipLabels); // added SkipLabels as last param to this pChart API function
+writeProgressInfo("Drawing the output in watts...",67);
 $Graph->drawFilledLineGraph($DataSet->GetData(),$DataSet->GetDataDescription(),30);
+writeProgressInfo("Drawing the output in watts...",74);
 $Graph->setLabel($DataSet->GetData(),$DataSet->GetDataDescription(),"watts",$maxValuePoint,$maxValueText);
+
+writeProgressInfo("Drawing the total output in watt hours...",78);
 
 // Clear the scale
 $Graph->clearScale();
@@ -812,9 +832,13 @@ $DataSet->RemoveSerie("watts");
 $DataSet->AddSerie("watthours");
 $DataSet->SetYAxisUnit($totalOutputUnit);
 $Graph->setFixedScale(0,intval($_GET['maxWh']),$scaleInterval);
+writeProgressInfo("Drawing the total output in watt hours...",82);
 $Graph->drawRightScale($DataSet->GetData(),$DataSet->GetDataDescription(),SCALE_START0,$darkTextR,$darkTextG,$darkTextB,TRUE,0,0,FALSE,$SkipLabels);
-$Graph->drawFilledLineGraph($DataSet->GetData(),$DataSet->GetDataDescription(),30);
+writeProgressInfo("Drawing the total output in watt hours...",86);
+$Graph->drawFilledLineGraph($DataSet->GetData(),$DataSet->GetDataDescription(),70);
+writeProgressInfo("Drawing the total output in watt hours...",89);
 $Graph->setLabel($DataSet->GetData(),$DataSet->GetDataDescription(),"watthours",$dailyTotalPoint,$dailyTotalText);
+writeProgressInfo("Finishing...",92);
 
 // Write the legend 
 if($width/$tenPoint < 70) {
@@ -828,6 +852,8 @@ if($width/$tenPoint < 70) {
 }
 $Graph->setFontProperties("pChart/Fonts/tahoma.ttf",$legendFont);
 $Graph->drawLegend(intval($width - ($horizontalOffset*($tenPoint/10))),intval($verticalOffset*($tenPoint/10)),$DataSet->GetDataDescription(),0,0,0,0,0,0,$titleR,$titleG,$titleB,FALSE); // $XPos,$YPos,$DataDescription,$R,$G,$B,$Rs=-1,$Gs=-1,$Bs=-1,$Rt=0,$Gt=0,$Bt=0,$Border=FALSE)
+
+writeProgressInfo("Finishing...",95);
 
 // Write the title
 $Graph->setFontProperties("pChart/Fonts/tahoma.ttf",$twentyPoint);
@@ -843,13 +869,19 @@ if($_GET['partial']) {
  $Graph->drawTitle(intval($graphAreaMarginXLeft+(14 * ($width/970))),intval(($graphAreaMarginYTop+(24*($tenPoint/10))+$lineHeight)),"for this day.",$darkTextR,$darkTextG,$darkTextB);
 }
 
+writeProgressInfo("Finishing...",97);
+
 // Write the yourturn watermark
 $Graph->setFontProperties("pChart/Fonts/tahoma.ttf",$fourteenPoint);
 $Graph->drawTitle($width-$graphAreaMarginXRight-(135*($tenPoint/10)),intval($height-$graphAreaMarginYBottom-(35*($tenPoint/10))),"Graphed by:",$titleR,$titleG,$titleB);
 $Graph->drawTitle($width-$graphAreaMarginXRight-(155*($tenPoint/10)),intval(($height-$graphAreaMarginYBottom-(35*($tenPoint/10)))+$lineHeight),"yourturn.ca/solar",$titleR,$titleG,$titleB);
 
+writeProgressInfo("Finishing...",99);
+
 // Render the picture
-$Graph->Stroke(); 
+$Graph->Render($_SERVER['DOCUMENT_ROOT'].ROOT_PATH."/uploads/".date("Y-m-d", strtotime($_GET['date']))."_Solar_Power_Graph_".substr($_GET['file'],-13).".png"); 
+
+writeProgressInfo("Finishing...",100);
 
 // This function takes a total minute number (ie: 330) and returns the formatted time (ie: 5:30am)
 function turnTotalMinsIntoTime($totalMins) {
@@ -931,7 +963,15 @@ function readTheLogFile() {
  $nextMinute = "";
  $nextHour = "";
  $prevMinute = "";
+ 
+ $numberOfLines = count(file($filePath));
+ $currentLine = 0;
+ 
  while(!feof($logFile)) {
+    
+   $currentLine++; 
+   writeProgressInfo("Reading your log file...",1+intval((24*($currentLine/$numberOfLines)))); 
+    
    // column 1 is the time
    // column 6 is the current output
    // column 9 is the total output
@@ -1045,4 +1085,17 @@ function getNextMinAndHour($timeMin,$timeHour) {
  }
  $nextMinute = strlen($nextMinute) < 2 ? "0".$nextMinute : $nextMinute;
  return array($nextMinute,$nextHour);
+}
+
+function writeProgressInfo($message,$percent) {
+    static $writingInProgress = false;
+    if(!$writingInProgress) {
+        $fileHandle = fopen($_SERVER['DOCUMENT_ROOT'].ROOT_PATH."/progress/".str_replace(array("/", "\\"), "", $_GET['file']),"w");
+        if($fileHandle) {
+            $writingInProgress = true;
+            fwrite($fileHandle, json_encode(array('progress'=>$percent,'message'=>$message)));
+            fclose($fileHandle);
+            $writingInProgress = false;
+        }
+    }
 }

@@ -1,11 +1,45 @@
 body {
-    font-family: Trebuchet MS,Verdana,Arial,sans-serif;
+    font-family: Verdana,Arial,sans-serif;
     font-size: 1em;
   }
 
 h1 {
     text-align: center;
+    font-weight: bold;
   }
+
+p {
+    margin-bottom: 0.1em;
+}
+
+#progressBar {
+    margin-left: 5em;
+    margin-right: 5em;
+    margin-top: 1em;
+    }
+
+#progressMessage {
+    text-align: center;
+}
+
+#image {
+    position: absolute;
+    top: 0;
+    width: 970px;
+    left: 50%;
+    margin-left: -485px;
+    display: none;
+    text-align: center;
+}
+
+#finalImage {
+    width: 970px;
+}
+
+#actualsize {
+    margin-top: 0.1em;
+    margin-bottom: 1em;
+}
 
 #sidebar {
     border: 1px solid #A6C9E2;
@@ -44,21 +78,16 @@ h1 {
     margin-top: 2em;
 }
   
-.helptext {
+.helptext, .answer {
     font-size: 0.75em;
     margin-top: 0.5em;
 }
-p {
-    margin-bottom: 0.1em;
+
+.tabs {
+    min-height: 27em;
 }
 
 #sizeBox { width: 97px; height: 55px; padding: 0.5em; }
-
-#scaleHelp {
-    float: right;
-    width: 50%;
-    margin-left: 4em;
-}
 
 .sliderLabel {
     font-weight: bold;

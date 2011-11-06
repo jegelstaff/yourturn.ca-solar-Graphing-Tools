@@ -669,4 +669,90 @@ For more information on this, and how to apply and follow the GNU AGPL, see
 
 */
 
-print "hello world";
+include "paths.php";
+
+if(!defined("ROOT_PATH") OR $_GET['height'] < 550) { // just double check that we've got what seems like a valid GET and the root path exists!
+ exit;
+}
+
+$readableDate = date("M j, Y", strtotime($_GET['date']));
+
+?>
+
+<html>
+
+<head>
+  <title><?php print strip_tags(htmlspecialchars($_GET['date']))." - ".intval($_GET['width'])."x".intval($_GET['height']); ?></title>
+  <script type="text/javascript" src="jquery/jquery-1.6.2.min.js"></script>
+  <script type="text/javascript" src="jquery/jquery-ui-1.8.16.custom.min.js"></script>
+  <link rel="stylesheet" href="jquery/css/start/jquery-ui-1.8.16.custom.css" type="text/css" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
+  
+  <script type="text/javascript">
+  $(function() {
+    $("#progressBar").progressbar({
+          value: 0,
+          complete: function(event, ui) {
+              $("#initialization").fadeOut("slow");
+              $("#finalImage").attr('src', '<?php print ROOT_PATH."/uploads/".date("Y-m-d", strtotime($_GET['date']))."_Solar_Power_Graph_".substr($_GET['file'],-13).".png"; ?>?refresh' );
+              $("#image").fadeIn("slow");
+              clearInterval(check);
+          }
+      });
+    // start the process of creating the image....
+    $.ajax({
+        url: 'dailyGraph.php?<?php
+        foreach($_GET as $key=>$value) {
+            print urlencode(strip_tags(htmlspecialchars($key, ENT_QUOTES)))."=".urlencode(strip_tags(htmlspecialchars($value, ENT_QUOTES)))."&";
+        }?>',   
+        cache: false
+      });
+  });
+  </script>
+  
+</head>
+
+<body>
+
+    <div id="initialization">
+        <h1>Now generating the graph for <?php print $readableDate; ?></h1>
+        <div id="progressBar"></div>
+        <p id="progressMessage">Reading your log file...</p>
+    </div>
+    <div id="image">
+        <h1>The Graph for <?php print $readableDate;?></h1>
+        <p id="actualsize">Actual size: <?php print $_GET['width']."x".$_GET['height']; ?> &mdash; <a href="download.php?file=<?php print date("Y-m-d", strtotime($_GET['date']))."_Solar_Power_Graph_".substr($_GET['file'],-13).".png"; ?>">Download this graph</a></p>
+        <img id="finalImage" src="" />
+    </div>
+
+    <script type="text/javascript">
+    
+    var check = setInterval(checkProgress, 200);
+    var checkInProgress = false;
+    function checkProgress() {
+        if(checkInProgress == false) {
+            checkInProgress = true;
+            $.ajax({
+                url: '<?php print ROOT_PATH."/progress/".str_replace(array("/", "\\"), "", $_GET['file']); ?>',
+                cache: false,
+                dataType: 'json',
+                timeout: 175,
+                success: function(data) {
+                    if(data) {
+                        $("#progressBar").progressbar('value',data.progress);
+                        $("#progressMessage").html(data.message);
+                    }
+                    checkInProgress = false;
+                },
+                complete: function(jqXHR) {
+                    checkInProgress = false;
+                }                
+            });
+        }
+    }
+        
+    </script>
+
+</body>
+
+</html>

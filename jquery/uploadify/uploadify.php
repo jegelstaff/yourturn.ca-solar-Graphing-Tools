@@ -29,7 +29,8 @@ include_once "../../paths.php"; // added by Julian Egelstaff Nov 2011
 if (!empty($_FILES)) {
 	$tempFile = $_FILES['Filedata']['tmp_name'];
 	$targetPath = $_SERVER['DOCUMENT_ROOT'] . ROOT_PATH.'/uploads/'; // need to set this to the specific folder where the files should be put -- ROOT PATH reference added by Julian Egelstaff Nov 2011
-	$targetFile =  str_replace('//','/',$targetPath) . $_FILES['Filedata']['name'].microtime(true); // added microtime to the filename to help ensure uniqueness -- Julian Egelstaff Nov 5 2011
+	$finalFileName = strip_tags(htmlspecialchars($_FILES['Filedata']['name'])).microtime(true); // added microtime to the filename to help ensure uniqueness -- Julian Egelstaff Nov 5 2011
+	$targetFile =  str_replace('//','/',$targetPath) . $finalFileName;
 	
 	// $fileTypes  = str_replace('*.','',$_REQUEST['fileext']);
 	// $fileTypes  = str_replace(';','|',$fileTypes);
@@ -61,7 +62,7 @@ if (!empty($_FILES)) {
 	
 		
 		move_uploaded_file($tempFile,$targetFile);
-		echo str_replace($_SERVER['DOCUMENT_ROOT'],'',$targetFile);
+		echo $finalFileName;
 	// } else {
 	// 	echo 'Invalid file type.';
 	// }

@@ -1,8 +1,10 @@
+See this code in action here: http://www.yourturn.ca/solar/graph-your-own-logs
+
 Installation Instructions:
 
 1. put a copy of all the files in a folder on your server
 2. change the root path defined in paths.php so it matches the path to the folder.  ie: if the files are in a folder called "solar" off the root of the domain, then the root path is "/solar".  If the files are in the root of the domain, then the root path should be "".
-3. make sure proper permissions are set on the uploads folder so that the web server can write files to that location (possibly 755 or 777 on Linux)
+3. make sure proper permissions are set on the uploads folder and the progress folder, so that the web server can write files to those locations (possibly 755 or 777 on Linux)
 
 Acknowledgements, inclusions:
 

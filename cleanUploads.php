@@ -673,13 +673,16 @@ For more information on this, and how to apply and follow the GNU AGPL, see
 
 include_once "paths.php";
 
-$dir = $_SERVER['DOCUMENT_ROOT'] . ROOT_PATH.'/uploads/';	  
-$currentTime = time();
-$targetTime = $currentTime - (21600); // 6 hours in seconds
-foreach(scandir($dir) as $fileName) {
-    if($fileName != "." AND $fileName != "..") {
-        if (filemtime($dir.$fileName) < $targetTime) {
-	    unlink($dir.$fileName);
+cleanFiles($_SERVER['DOCUMENT_ROOT'] . ROOT_PATH.'/uploads/');
+cleanFiles($_SERVER['DOCUMENT_ROOT'] . ROOT_PATH.'/progress/');
+function cleanFiles($dir) {
+    $currentTime = time();
+    $targetTime = $currentTime - (21600); // 6 hours in seconds
+    foreach(scandir($dir) as $fileName) {
+        if($fileName != "." AND $fileName != "..") {
+            if (filemtime($dir.$fileName) < $targetTime) {
+        	    unlink($dir.$fileName);
+            }
         }
     }
 }
