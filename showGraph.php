@@ -694,7 +694,7 @@ $readableDate = date("M j, Y", strtotime($_GET['date']));
           value: 0,
           complete: function(event, ui) {
               $("#initialization").fadeOut("slow");
-              $("#finalImage").attr('src', '<?php print ROOT_PATH."/uploads/".date("Y-m-d", strtotime($_GET['date']))."_Solar_Power_Graph_".substr($_GET['file'],-13).".png"; ?>?refresh' );
+              $("#finalImage").attr('src', '<?php print ROOT_PATH."/uploads/".date("Y-m-d", strtotime($_GET['date']))."_Solar_Power_Graph_".substr($_GET['file'],-13).".png?".microtime(true); ?>' );
               $("#image").fadeIn("slow");
               clearInterval(check);
           }
