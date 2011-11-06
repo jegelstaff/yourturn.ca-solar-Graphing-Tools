@@ -671,7 +671,7 @@ For more information on this, and how to apply and follow the GNU AGPL, see
 
 include "paths.php";
 
-if(!defined("ROOT_PATH") OR $_GET['height'] < 550) { // just double check that we've got what seems like a valid GET and the root path exists!
+if(!defined("ROOT_PATH") OR $_GET['height'] < 550 OR $_GET['width'] < 970) { // just double check that we've got what seems like a valid GET and the root path exists!
  exit;
 }
 

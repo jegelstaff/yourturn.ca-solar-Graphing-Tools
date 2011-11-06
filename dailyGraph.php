@@ -679,7 +679,7 @@ include_once "pChart/pChart/pData.class";
 include_once "pChart/pChart/pChart.class";
 include_once "cleanUploads.php";
 
-if(!defined("ROOT_PATH") OR $_GET['height'] < 550) { // just double check that we've got what seems like a valid GET and the root path exists!
+if(!defined("ROOT_PATH") OR $_GET['height'] < 550 OR $_GET['width'] < 970) { // just double check that we've got what seems like a valid GET and the root path exists!
  exit;
 }
 
