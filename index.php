@@ -787,8 +787,8 @@ include_once "cleanUploads.php";
         <div id="tabs-4" class="tabs">
                 <div class="uisection-first" id="colours">
                     <p>Instantaneous output (Watts): <input type="text" size="10" maxlength="255" id="colourInstant" class="colourTextbox" name="colourInstant" value="#FBD209" /></p>
-                    <p>Cumulative power (Watt Hours): <input type="text" size="10" maxlength="255" id="colourCumulative" class="colourTextbox" name="colourCumulative" value="#77B9DA" /></p>
-                    <p>Titles: <input type="text" size="10" maxlength="255" id="colourTitle" class="colourTextbox" name="colourTitle" value="#81731D" /></p>
+                    <p>Cumulative power (Watt Hours): <input type="text" size="10" maxlength="255" id="colourCumulative" class="colourTextbox" name="colourCumulative" value="#ADD6EB" /></p>
+                    <p>Titles: <input type="text" size="10" maxlength="255" id="colourTitle" class="colourTextbox" name="colourTitle" value="#F0EDB2" /></p>
                     <p>Text labels: <input type="text" size="10" maxlength="255" id="colourLabel" class="colourTextbox" name="colourLabel" value="#E9EADC" /></p>
                     <p>Graph background: <input type="text" size="10" maxlength="255" id="colourBackground" class="colourTextbox" name="colourBackground" value="#FCFBE3" /></p>
                     <p>Graph Margins: <input type="text" size="10" maxlength="255" id="colourMargin" class="colourTextbox" name="colourMargin" value="#3496BC" /></p>
