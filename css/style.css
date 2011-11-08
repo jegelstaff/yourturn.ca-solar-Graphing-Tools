@@ -94,8 +94,8 @@ p {
     margin-top: 0px;
 }
 
-#timeRange {
-    clear: both;
+#timeSlider {
+   width: 70%;
 }
 
 #colours {
