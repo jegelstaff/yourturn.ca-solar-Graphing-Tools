@@ -721,8 +721,6 @@ include_once "cleanUploads.php";
                 <p class="helptext">&copy; 2010-2011 Julian Egelstaff</p>
                 <p class="helptext">This graphing system is <a href="http://www.gnu.org/licenses/agpl.html" target="_blank">open source software, under the <nobr>AGPL 3</nobr></a>.</p>
                 <p class="helptext">You can <a href="https://github.com/jegelstaff/yourturn.ca-solar-Graphing-Tools" target="_blank">download the source code from GitHub</a>.</p>
-                <p><hr /></p>
-                <p class="helptext"><a href="http://www.yourturn.ca/solar">Visit the yourturn.ca/solar website</a>, to learn about my solar power system and see complete historical graphs of its production.</p>
             </div>
         </div>
         

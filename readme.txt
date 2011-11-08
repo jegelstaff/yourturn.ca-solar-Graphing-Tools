@@ -1,5 +1,7 @@
 See this code in action here: http://www.yourturn.ca/solar/graph-your-own-logs
 
+Visit http://www.yourturn.ca/solar to learn about my solar power system and see complete historical graphs of its production.
+
 Installation Instructions:
 
 1. put a copy of all the files in a folder on your server
