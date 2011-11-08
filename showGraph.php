@@ -697,6 +697,9 @@ $readableDate = date("M j, Y", strtotime($_GET['date']));
               $("#finalImage").attr('src', '<?php print ROOT_PATH."/uploads/".date("Y-m-d", strtotime($_GET['date']))."_Solar_Power_Graph_".substr($_GET['file'],-13).".png?".microtime(true); ?>' );
               $("#image").fadeIn("slow");
               clearInterval(check);
+              $.ajax({
+                url: 'deleteProgress.php?file=<?php print urlencode(str_replace(array("/","\\"),"",$_GET['file'])); ?>'
+              });
           }
       });
     // start the process of creating the image....
