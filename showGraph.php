@@ -739,7 +739,6 @@ $readableDate = date("M j, Y", strtotime($_GET['date']));
                 url: '<?php print ROOT_PATH."/progress/".str_replace(array("/", "\\"), "", $_GET['file']); ?>',
                 cache: false,
                 dataType: 'json',
-                timeout: 175,
                 success: function(data) {
                     if(data) {
                         $("#progressBar").progressbar('value',data.progress);
